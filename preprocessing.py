@@ -17,6 +17,7 @@ y: datafram of energy targets
 
 def clean_df(df):
     df.loc[df['CELLAR'] < 0, 'CELLAR'] = 0
+    df.loc[df['CONDCOOP'] < 0, 'CONDCOOP'] = 0
     df.loc[df['GARGCOOL'] < 0, 'GARGCOOL'] = 0
     df.loc[df['GARGHEAT'] < 0, 'GARGHEAT'] = 0
     df.loc[df['ROOFTYPE'] < 0, 'ROOFTYPE'] = 0
@@ -67,7 +68,9 @@ def clean_df(df):
     df.loc[df['WINDOWS'] == 60, 'WINDOWS'] = 7
     df.loc[df['TYPEGLASS'] < 0, 'TYPEGLASS'] = 0
     
-    df['HOUSEAGE'] = 2017 - df.YEARMADE
+    df['HOUSEAGE'] = 2009 - df.YEARMADE
+    df = df.drop(df.index[[9129]])
+    df = df.drop(df.index[[10075]])
 
     y = df.pop('KWH')
     y_btu = df.pop('TOTALBTU')
@@ -84,12 +87,13 @@ def clean_df(df):
             'NUMBERAC','NUMCFAN','USECFAN','TREESHAD','NOTMOIST','HIGHCEIL', 
             'CATHCEIL','POOL','FUELPOOL','RECBATH','FUELTUB','LGT12','LGT1', 
             'NOUTLGTNT','INSTLCFL','SLDDRS','WINDOWS','TYPEGLASS','ADQINSUL',
-            'DRAFTY','INSTLWS','USEWOOD','USESOLAR','ELWARM','ELCOOL',
-            'UGWARM','UGWATER','ELFOOD','LPWARM','FOWARM','KRWARM',
-            'WDWARM','SOLWARM','SOLWATER','ONSITE','NHSLDMEM','ATHOME','WSF']]
+            'DRAFTY','INSTLWS','USEWOOD','USESOLAR','ELWARM','ELCOOL','ELECAUX',
+            'UGWARM','UGWATER','ELFOOD','LPWARM','FOWARM','KRWARM','ELOTHER',
+            'WDWARM','SOLWARM','SOLWATER','ONSITE','NHSLDMEM','ATHOME','OTHWORK',
+            'WSF']]
 
 
-    return(X, y_btu)
+    return X, y_btu
 
 
 
