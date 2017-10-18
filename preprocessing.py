@@ -75,6 +75,11 @@ def clean_df(df):
 
     df['HOUSEAGE'] = 2009 - df.YEARMADE
 
+    col_dummies = ['REPORTABLE_DOMAIN','TYPEHUQ','WALLTYPE','CONDCOOP','ROOFTYPE','H2OTYPE1',
+               'FUELH2O','COOLTYPE','DIVISION','Climate_Region_Pub','AIA_Zone','FUELHEAT',
+               'FUELPOOL','FUELTUB','TYPEGLASS','ADQINSUL','DRAFTY']
+    df = pd.get_dummies(df, columns=col_dummies)
+
     y = df.pop('KWH')
     y_btu = df.pop('TOTALBTU')
 
