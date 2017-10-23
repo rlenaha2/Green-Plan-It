@@ -1,41 +1,42 @@
 import numpy as np
-from model.py import ridge_model
+import pandas as pd 
 
+def clean_df_pred(df_pred):
+    """
+    Cleans the input.csv and returns a df to be used to make predictions
+    Input
+    -------
+    df from input csv
+ 
+    Output 
+    ------- 
+    Cleaned Dataframe
+    """
 
+    df_pred = df_pred.T
+    new_header = df_pred.iloc[0] 
+    df_pred = df_pred[1:] 
+    df_pred.columns = new_header
+    df_pred = df_pred.iloc[[3]]
+   
+    return df_pred
+ 
+def make_prediction(pipe, df_pred):
+    '''
+    Function to create predicitons based on user input for a new house.
+    Inputs
+    --------
+    Pipe object which contains predicitive model
+    Cleaned dataframe which contains instance to be predicted 
+    
+    Outputs
+    --------
+    Yearly energy usage in BTU
+    '''
 
-
-def make_predition(VARS TO BE DETERMINED):
-'''
-Function to create predicitons based on user input for a new house.
-Inputs
---------
-TOTSQFT
-HOUSEAGE
-WALLTPYE
-TYPEGLASS
-TEMPHOME
-TEMPGONE
-DIVISION
-
-NUMROOMS
-CELLAR => Do you have a basement
-GARGHEAT => Do you have heat in your garage
-ROOFTYPE
-NUMFLOORS
-WARMAIR
-ACROOMS
-HIGHCEIL
-POOL
-USECENAC
-
-
-Outputs
---------
-Yearly energy usage in BTU
-'''
-
-    energy_prediction = ridge_model.predict(VARS)
+    energy_prediction = pipe.predict(df_pred)
     energy_prediction = np.exp(energy_prediction)
+
     return energy_prediction
 
 
