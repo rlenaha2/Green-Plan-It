@@ -2,21 +2,21 @@ import pandas as pd
 
 
 def clean_df(df):
-'''
-Takes the data from the RECS database and returns a dataframe of features and 
-target engery consumption
-
-INPUT
-------------
-Dataframe
-
-
-Output
-------------
-X: dataframe of features
-y: datafram of energy targets
-'''
-
+    '''
+    Takes the data from the RECS database and returns a dataframe of features and 
+    target engery consumption
+    
+    INPUT
+    ------------
+    Dataframe
+    
+    
+    Output
+    ------------
+    X: dataframe of features
+    y: datafram of energy targets
+    '''
+    
 
     df.loc[df['CONDCOOP'] < 0, 'CONDCOOP'] = 0
     df.loc[df['CONVERSION'] < 0, 'CONVERSION'] = 0
@@ -179,87 +179,112 @@ y: datafram of energy targets
     df.loc[df['TYPEGLASS'] < 0, 'TYPEGLASS'] = 0
     df.loc[df['ONSITEGRID'] < 0, 'ONSITEGRID'] = 0
     df.loc[df['HUPROJ'] < 0, 'HUPROJ'] = 0
-    
-    df['HOUSEAGE'] = 2009 - df.YEARMADE
+   
+    if 'YEARMADE' in df.columns:
 
-    X = df[['DIVISION_1', 'DIVISION_2', 'DIVISION_3', 'DIVISION_4', 
-        'DIVISION_5', 'DIVISION_6', 'DIVISION_7', 'DIVISION_8', 
-        'DIVISION_9', 'REPORTABLE_DOMAIN_1','REPORTABLE_DOMAIN_2',
-        'REPORTABLE_DOMAIN_3','REPORTABLE_DOMAIN_4','REPORTABLE_DOMAIN_5',
-        'REPORTABLE_DOMAIN_6','REPORTABLE_DOMAIN_7','REPORTABLE_DOMAIN_8',
-        'REPORTABLE_DOMAIN_9','REPORTABLE_DOMAIN_10','REPORTABLE_DOMAIN_11',
-        'REPORTABLE_DOMAIN_12','REPORTABLE_DOMAIN_13','REPORTABLE_DOMAIN_14',
-        'REPORTABLE_DOMAIN_15','REPORTABLE_DOMAIN_16','REPORTABLE_DOMAIN_17',
-        'REPORTABLE_DOMAIN_18','REPORTABLE_DOMAIN_19','REPORTABLE_DOMAIN_20',
-        'REPORTABLE_DOMAIN_21','REPORTABLE_DOMAIN_22','REPORTABLE_DOMAIN_23',
-        'REPORTABLE_DOMAIN_24','REPORTABLE_DOMAIN_25','REPORTABLE_DOMAIN_26',
-        'TYPEHUQ_1','TYPEHUQ_2','TYPEHUQ_3','TYPEHUQ_4','HDD65','CDD65',
-        'Climate_Region_Pub_1', 'Climate_Region_Pub_2', 'Climate_Region_Pub_3',
-        'Climate_Region_Pub_4', 'AIA_Zone_1', 'AIA_Zone_2', 'AIA_Zone_3', 
-        'AIA_Zone_4', 'CONDCOOP_0', 'CONDCOOP_1', 'HOUSEAGE', 'CONVERSION_0',
-        'CONVERSION_1', 'NUMFLRS', 'NUMAPTS', 'WALLTYPE_1', 'WALLTYPE_2',
-        'WALLTYPE_3', 'WALLTYPE_4', 'WALLTYPE_5', 'WALLTYPE_6', 'WALLTYPE_7',
-        'WALLTYPE_8','ROOFTYPE_0', 'ROOFTYPE_1', 'ROOFTYPE_2', 'ROOFTYPE_3', 
-        'ROOFTYPE_4', 'ROOFTYPE_5', 'ROOFTYPE_6', 'ROOFTYPE_7', 'NAPTFLRS',
+ 
+        df['HOUSEAGE'] = 2009 - df.YEARMADE
+
+    else:
+        df['HOUSEAGE'] = df['HOUSEAGE']
+
+
+    return df
+
+
+    col_dummies = ['DIVISION','REPORTABLE_DOMAIN','TYPEHUQ','Climate_Region_Pub',
+               'AIA_Zone','CONDCOOP','CONVERSION','WALLTYPE','ROOFTYPE',
+               'STOVENFUEL','STOVEFUEL','OVENFUEL', 'OVENUSE','AMTMICRO',
+               'OUTGRILLFUEL', 'NUMMEAL','FUELFOOD', 'TVTYPE1','PCTYPE1',
+               'EQUIPM', 'FUELHEAT', 'NGFPFLUE','USENGFP','DIFFUEL','EQMAMT',
+               'H2OTYPE1', 'FUELH2O', 'COOLTYPE', 'FUELPOOL','FUELTUB','TYPEGLASS',
+               'ADQINSUL','DRAFTY']
+
+def create_target(df):
+    """"
+    Creates energy target from dataframe that contains energy targets
+    Input 
+    -------
+    Dataframe containing column TOTALBTU
+
+    Output
+    -------
+    Dataframe with targets removed
+    """
+    
+    y = df.pop('TOTALBTU')
+    return y
+
+
+def create_feature_dataframe(df):
+    """
+    Creates dataframe of features
+    Input 
+    -------
+    Cleaned dataframe (no negative values)
+
+    Output
+    -------
+    Dataframe of features to be used by the model
+    """
+
+    X = df[['DIVISION', 'REPORTABLE_DOMAIN', 'TYPEHUQ','HDD65','CDD65',
+        'Climate_Region_Pub', 'AIA_Zone', 'CONDCOOP', 'HOUSEAGE', 
+        'CONVERSION', 'NUMFLRS', 'NUMAPTS', 'WALLTYPE','ROOFTYPE', 'NAPTFLRS',
         'STORIES', 'BEDROOMS', 'NCOMBATH', 'NHAFBATH', 'TOTROOMS','CELLAR',
         'CRAWL', 'CONCRETE', 'BASEFIN' ,'BASEHEAT', 'PCTBSTHT', 'BASECOOL',
         'PCTBSTCL', 'ATTIC', 'ATTICFIN', 'ATTCHEAT', 'PCTATTHT', 'ATTCCOOL',
         'PCTATTCL', 'PRKGPLC1', 'SIZEOFGARAGE', 'GARGHEAT', 'GARGCOOL', 
-        'STOVEN', 'STOVENFUEL_0', 'STOVENFUEL_1', 'STOVENFUEL_2', 'STOVENFUEL_3',
-        'STOVE', 'STOVEFUEL_0', 'STOVEFUEL_1', 'STOVEFUEL_2', 
-        'OVEN', 'OVENFUEL_0', 'OVENFUEL_1', 'OVENFUEL_2', 'OVENUSE_0', 
-        'OVENUSE_1', 'OVENUSE_2', 'OVENUSE_3', 'OVENUSE_4',
-        'OVENUSE_5', 'MICRO', 'AMTMICRO_0', 'AMTMICRO_1', 'AMTMICRO_2', 
-        'AMTMICRO_3', 'DEFROST', 'OUTGRILL', 'OUTGRILLFUEL_0','OUTGRILLFUEL_1',
-        'OUTGRILLFUEL_2', 'TOASTER', 'NUMMEAL_0', 'NUMMEAL_1','NUMMEAL_2',
-        'NUMMEAL_3', 'NUMMEAL_4','NUMMEAL_5', 'FUELFOOD_0', 'FUELFOOD_1', 
-        'FUELFOOD_2', 'FUELFOOD_3', 'NUMFRIG', 'SIZRFRI1', 'AGERFRI1', 
-        'SIZRFRI2', 'NUMFREEZ', 'SIZFREEZ', 'AGEFRZR', 'DWASHUSE',
-        'AGEDW', 'ESDISHW', 'TVCOLOR','TVSIZE1', 'TVTYPE1_0', 
-        'TVTYPE1_1', 'TVTYPE1_2', 'TVTYPE1_3','TVTYPE1_4', 
-        'TVAUDIOSYS1', 'TVONWD1', 'TVONWE1', 'TVSIZE2', 'NUMPC', 
-        'PCTYPE1_0', 'PCTYPE1_1', 'TIMEON1','WELLPUMP', 'DIPSTICK', 
-        'SWAMPCOL', 'AQUARIUM', 'HEATHOME', 'EQUIPM_0', 'EQUIPM_1',
-        'EQUIPM_2', 'EQUIPM_3', 'EQUIPM_4', 'EQUIPM_5', 'EQUIPM_6', 'EQUIPM_7',
-        'EQUIPM_8', 'EQUIPM_9', 'EQUIPM_10', 'EQUIPM_11','FUELHEAT_0', 
-        'FUELHEAT_1', 'FUELHEAT_2', 'FUELHEAT_3', 'FUELHEAT_4','FUELHEAT_5',
-        'FUELHEAT_6', 'FUELHEAT_7', 'FUELHEAT_8', 'EQUIPAGE', 'HEATOTH',
-        'EQUIPAUX', 'NGFPFLUE_0', 'NGFPFLUE_1', 'USENGFP_0', 'USENGFP_1',
-        'USENGFP_2', 'DIFFUEL_0', 'DIFFUEL_1', 'DIFFUEL_2', 'DIFFUEL_3',
-        'DIFFUEL_5', 'DIFFUEL_6', 'DIFFUEL_7', 'DIFFUEL_8',
-        'EQMAMT_0', 'EQMAMT_1', 'EQMAMT_2', 'HEATROOM', 'PROTHERM', 
-        'AUTOHEATNITE', 'AUTOHEATDAY', 'TEMPHOME', 'TEMPGONE', 'TEMPNITE',
-        'USEMOISTURE', 'NUMH2ONOTNK', 'NUMH2OHTRS', 'H2OTYPE1_0', 
-        'H2OTYPE1_1', 'FUELH2O_0', 'FUELH2O_1',
-        'FUELH2O_2', 'FUELH2O_3', 'FUELH2O_4', 'FUELH2O_5', 'FUELH2O_6', 
-        'FUELH2O_7', 'WHEATOTH', 'WHEATSIZ', 'WHEATAGE', 'WHEATBKT',
-        'COOLTYPE_0','COOLTYPE_1', 'COOLTYPE_2', 'DUCTS', 
-        'CENACHP', 'ACOTHERS', 'AGECENAC', 'ACROOMS', 'USECENAC', 
+        'STOVEN', 'STOVENFUEL', 'STOVE', 'STOVEFUEL', 
+        'OVEN', 'OVENFUEL', 'OVENUSE', 'MICRO', 'AMTMICRO', 
+        'DEFROST', 'OUTGRILL', 'OUTGRILLFUEL', 'TOASTER', 'NUMMEAL',
+        'FUELFOOD', 'NUMFRIG', 'SIZRFRI1', 'AGERFRI1', 
+         'NUMFREEZ', 'SIZFREEZ', 'AGEFRZR',
+        'TVCOLOR','TVSIZE1', 'TVTYPE1', 
+        'TVONWD1', 'TVONWE1', 'NUMPC', 
+        'PCTYPE1', 'TIMEON1','WELLPUMP', 'DIPSTICK', 
+        'SWAMPCOL', 'AQUARIUM', 'HEATHOME', 'EQUIPM','FUELHEAT', 'EQUIPAGE', 'HEATOTH',
+        'EQUIPAUX', 'NGFPFLUE', 'USENGFP', 'DIFFUEL',
+        'EQMAMT', 'HEATROOM', 'PROTHERM','AUTOHEATNITE', 
+        'AUTOHEATDAY', 'TEMPHOME', 'TEMPGONE', 'TEMPNITE',
+        'USEMOISTURE', 'NUMH2ONOTNK', 'NUMH2OHTRS', 'H2OTYPE1', 
+        'FUELH2O', 'WHEATOTH', 'WHEATSIZ', 'WHEATAGE', 'WHEATBKT',
+        'COOLTYPE', 'DUCTS',  'CENACHP', 'ACOTHERS', 'AGECENAC', 'ACROOMS', 'USECENAC', 
         'PROTHERMAC', 'AUTOCOOLNITE', 'AUTOCOOLDAY', 'TEMPHOMEAC',
         'TEMPGONEAC', 'TEMPNITEAC', 'NUMBERAC', 'ESWWAC', 'USEWWAC',
         'NUMCFAN', 'USECFAN', 'TREESHAD', 'NOTMOIST', 'USENOTMOIST',
-        'HIGHCEIL', 'CATHCEIL', 'POOL', 'FUELPOOL_1', 'FUELPOOL_2',
-        'FUELPOOL_3',  'FUELPOOL_5', 'FUELPOOL_6',
-        'FUELPOOL_7', 'RECBATH', 'FUELTUB_1', 'FUELTUB_2',
-        'FUELTUB_3', 'FUELTUB_5', 'FUELTUB_6',
-        'FUELTUB_7', 'LGT12', 'LGT12EE', 'LGT4', 'LGT4EE', 'LGT1',
+        'HIGHCEIL', 'CATHCEIL', 'POOL', 'FUELPOOL', 'RECBATH', 
+        'FUELTUB', 'LGT12', 'LGT12EE', 'LGT4', 'LGT4EE', 'LGT1',
         'LGT1EE', 'NOUTLGTNT', 'LGTOEE', 'NGASLIGHT', 'DOOR1SUM',
-        'WINDOWS','TYPEGLASS_0', 'TYPEGLASS_1', 'TYPEGLASS_2',
-        'ADQINSUL_1', 'ADQINSUL_2', 'ADQINSUL_3', 'DRAFTY_1',
-        'DRAFTY_2', 'DRAFTY_3', 'INSTLWS', 'USESOLAR', 'ONSITE',
+        'WINDOWS','TYPEGLASS', 'ADQINSUL', 'DRAFTY', 'INSTLWS', 'USESOLAR', 'ONSITE',
         'ONSITEGRID', 'NHSLDMEM', 'HBUSNESS', 'ATHOME', 'OTHWORK',
-        'HUPROJ', 'TOTSQFT', 'WSF', 'OA_LAT'
+        'HUPROJ', 'TOTSQFT', 'WSF', 'OA_LAT', 'HOUSEAGE'
         ]]
+   
+    return X
 
 
+def column_index(df, query_cols):
+    """
+    Creates indecies from column names to be used in OneHotEncoder
+    Input 
+    ------- 
+    Dataframe with all columns
+    query_cols columns which indicies will be returned
 
-    df = pd.get_dummies(df, columns=col_dummies)
+    Output
+    -------
+    Indicies of columns from input
+    """
 
-    y = df.pop('KWH')
-    y_btu = df.pop('TOTALBTU')
 
+    cols = df.columns.values
+    sidx = np.argsort(cols)
+    return sidx[np.searchsorted(cols,query_cols,sorter=sidx)]
  
-    return X, y_btu
 
+
+if __name__ == '__main__':
+    df = pd.read_csv('recs2009_public.csv')
 
 
