@@ -1,6 +1,23 @@
 import numpy as np
 import pandas as pd 
 
+
+def read_df_pred(filepath):
+    """
+    Creates a pandas dataframe from the input csv
+    Input
+    -------
+    Path to the csv 
+
+    Output  
+    -------
+    Pandas dataframe 
+    """
+
+    df_pred = pd.read_csv(filepath)
+
+    return df_pred
+
 def clean_df_pred(df_pred):
     """
     Cleans the input.csv and returns a df to be used to make predictions

@@ -4,6 +4,11 @@ from sklearn.linear_model import Ridge
 import numpy as np
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
+import pickle
+from preprocessing import clean_df
+from preprocessing import create_target
+from preprocessing import create_feature_dataframe
+
 
 def column_index(df, query_cols):
     """
@@ -54,7 +59,20 @@ def create_model(X, y):
                                                            col_dummies_index)),
                ('ridge_model', Ridge(alpha=3))])
     pipe.fit(X_train, y = np.log(y_train))
+    
+    with open('pipe_model.p', 'wb') as f:  
+        pickle.dump(pipe, f)
+
+
 
     return pipe 
+
+
+if __name__=="__main__":
+    df = pd.read_csv("recs2009_public.csv")
+    df = clean_df(df)
+    y = create_target(df)
+    X = create_feature_dataframe(df)
+    pipe = create_model(X,y)
 
 
