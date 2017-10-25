@@ -52,13 +52,13 @@ def create_model(X, y):
                'H2OTYPE1', 'FUELH2O', 'COOLTYPE', 'FUELPOOL','FUELTUB','TYPEGLASS',
                'ADQINSUL','DRAFTY'])
 
-    X_train, X_test, y_train, y_test = train_test_split(
-    X, y, random_state = 52)
+#    X_train, X_test, y_train, y_test = train_test_split(
+#    X, y, random_state = 52)
 
     pipe = Pipeline([('one_hot_encoder', OneHotEncoder(categorical_features=
                                                            col_dummies_index)),
                ('ridge_model', Ridge(alpha=3))])
-    pipe.fit(X_train, y = np.log(y_train))
+    pipe.fit(X, y = np.log(y))
     
     with open('pipe_model.p', 'wb') as f:  
         pickle.dump(pipe, f)
