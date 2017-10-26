@@ -12,13 +12,41 @@ Released   : 20140322
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<script
+			  src="https://code.jquery.com/jquery-3.2.1.js"
+			  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+			  crossorigin="anonymous"></script>
+<script> 
+
+$(function() {
+    $('#upload-file-btn').click(function() {
+        var form_data = new FormData();
+        form_data.append('file', input.files[0])
+        console.log(form_data)
+        $.ajax({
+            type: 'POST',
+            url: '/upload',
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            async: false,
+            success: function(data) {
+                console.log('Success!');
+		$("#results").val("Your Energy Prediction is: "+data)
+            },
+        });
+    });
+});
+
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title></title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900|Quicksand:400,700|Questrial" rel="stylesheet" />
-<link href="default.css" rel="stylesheet" type="text/css" media="all" />
-<link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
+<link href="../static/css/default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="../static/css/fonts.css" rel="stylesheet" type="text/css" media="all" />
 
 <!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
 
@@ -28,27 +56,27 @@ Released   : 20140322
 	<div id="header" class="container">
 		<div id="logo">
         	<span class="icon icon-cog"></span>
-			<h1><a href="#">Undeviating</a></h1>
+			<h1><a href="#">Green Plan-It</a></h1>
 		</div>
 		<div id="menu">
 			<ul>
 				<li class="active"><a href="#" accesskey="1" title="">Homepage</a></li>
-				<li><a href="#" accesskey="2" title="">Our Clients</a></li>
-				<li><a href="#" accesskey="3" title="">About Us</a></li>
+				<li><a href="#" accesskey="2" title="">Energy Calculator</a></li>
+				<li><a href="#" accesskey="3" title="">About Me</a></li>
 				<li><a href="#" accesskey="4" title="">Careers</a></li>
-				<li><a href="#" accesskey="5" title="">Contact Us</a></li>
+				<li><a href="#" accesskey="5" title="">Contact Me</a></li>
 			</ul>
 		</div>
 	</div>
 </div>
 <div class="wrapper">
-	<div id="banner" class="container"><img src="images/banner.jpg" width="1200" height="500" alt="" /></div>
+	<div id="banner" class="container"><img src="../static/images/green-planet.jpg" width="500" height="500" alt="" /></div>
 	<div id="welcome" class="container">
     	
 <div class="title">
-	  <h2>Welcome to our website</h2>
+	  <h2>Welcome to Green Plan-It</h2>
 		</div>
-		<p>This is <strong>Undeviating</strong>, a free, fully standards-compliant CSS template designed by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>. The photos in this template are from <a href="http://fotogrph.com/"> Fotogrph</a>. This free template is released under the <a href="http://templated.co/license">Creative Commons Attribution</a> license, so you're pretty much free to do whatever you want with it (even use it commercially) provided you give us credit for it. Have fun :) </p>
+		<p>This is <strong>Green Plan-It</strong>, a tool that is allows you to estimate the yearly enery usage for a structure.  To estimate the yearly energy usage download the CV found here, and change the values from the default. <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.  </p>
 	</div>
 	<div id="three-column" class="container">
 		<div><span class="arrow-down"></span></div>
@@ -56,8 +84,8 @@ Released   : 20140322
 			<div class="title">
 				<h2>Maecenas luctus</h2>
 			</div>
-			<p>Nullam non wisi a sem semper eleifend. Donec mattis libero eget urna. Duis pretium velit ac suscipit mauris. Proin eu wisi suscipit nulla suscipit interdum.</p>
-			<a href="#" class="button">Learn More</a> </div>
+			<p>Download the CSV to make an energy prediction</p>
+			<a href="/download" download="green_plan_it_input.csv" class="button">Download</a> </div>
 		<div id="tbox2">
 			<div class="title">
 				<h2>Integer gravida</h2>
@@ -68,7 +96,7 @@ Released   : 20140322
 			<div class="title">
 				<h2>Praesent mauris</h2>
 			</div>
-			<p>Donec mattis libero eget urna. Duis pretium velit ac mauris. Proin eu wisi suscipit nulla suscipit interdum. Nullam non wisi a sem suscipit  eleifend.</p>
+			<p>Donecelit ac mauris. Proin eu wisi suscipit nulla suscipit interdum. Nullam non wisi a sem suscipit  eleifend.</p>
 			<a href="#" class="button">Learn More</a> </div>
 	</div>
 	<div id="portfolio" class="container">
@@ -80,14 +108,20 @@ Released   : 20140322
 		</div>
 		<div class="column2">
 			<div class="box">
-			  <h3>Praesent scelerisque</h3>
-				<p>Vivamus fermentum nibh in augue praesent urna congue rutrum.</p>
+			  <h3>Get Predictions</h3>
+				<p>Click the Get Prediction button below to upload your CSV and get an energy prediction</p>
+				<form id="upload-file" enctype="multipart/form-data" method="post" action="/upload">
+					<input id="fileupload" name="myfile" type="file" />
+					<input id="upload-file-btn" type="submit">Get Prediction</button>
+				</form>
+
+		<p id="results"> </p>
 		  <a href="#" class="button button-small">Etiam posuere</a> </div>
 		</div>
 		<div class="column3">
 			<div class="box">
 			  <h3>Donec dictum metus</h3>
-				<p>Vivamus fermentum nibh in augue praesent urna congue rutrum.</p>
+				<p>textextext</p>
 		  <a href="#" class="button button-small">Etiam posuere</a> </div>
 		</div>
 		<div class="column4">
