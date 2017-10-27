@@ -18,14 +18,23 @@ The model is a linear regression with L2 reguarlization (Ridge).
 ## Model Performance
 
 
+![Alt text](relative/path/to/img.jpg?raw=true "Title")
+
 ## Set up
 
-# Libraries
-Python2.7
+## Libraries
+* Python 2.7
 
-Numpy
+numpy 1.13.3
 
-Pandas
+pandas 0.20.3
 
-Flask
+Flask 0.12.2
 
+scikit-learn 0.19.1
+
+Werkzeug 0.12.2
+
+scipy 1.0.0
+
+* To change to Python 3 model.py needs to have "protocol=2" removed from the create_model function
