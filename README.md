@@ -23,7 +23,7 @@ The model is a linear regression with L2 reguarlization (Ridge).
 ## Set up
 
 ## Libraries
-* Python 2.7
+\* Python 2.7
 
 numpy 1.13.3
 
@@ -37,4 +37,4 @@ Werkzeug 0.12.2
 
 scipy 1.0.0
 
-* To change to Python 3 model.py needs to have "protocol=2" removed from the create_model function
+\* To change to Python 3 model.py needs to have "protocol=2" removed from the create_model function
