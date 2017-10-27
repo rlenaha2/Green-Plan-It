@@ -4,6 +4,7 @@ import random
 from werkzeug.utils import secure_filename
 import os
 import pandas as pd
+import numpy as np
 
 app = Flask(__name__)
 data_model = Process_Result('pipe_model.p') 
@@ -23,7 +24,8 @@ def solve(filename):
     user_data = pd.read_csv('/tmp/'+filename)  
     data_model.create_pred_df('/tmp/'+filename)
     prediction = data_model.make_new_prediction()  
-    return str(prediction) 
+    prediction = prediction.round(2) 
+    return list(prediction) 
 
 @app.route('/download', methods=['GET'])
 def download():
@@ -46,7 +48,9 @@ def upload_file():
         if file and file.filename.endswith('csv'):
             filename = secure_filename(file.filename + str(random.randint(0,1000000)))
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return solve(filename) 
+            result = solve(filename)
+            result = {'pred': result}
+            return jsonify(result)
                                     
 
     return '''

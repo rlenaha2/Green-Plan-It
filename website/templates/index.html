@@ -19,9 +19,9 @@ Released   : 20140322
 <script> 
 
 $(function() {
-    $('#upload-file-btn').click(function() {
+    $('#get_prediction').click(function() {
         var form_data = new FormData();
-        form_data.append('file', input.files[0])
+        form_data.append('file', document.getElementById('fileupload').files[0])
         console.log(form_data)
         $.ajax({
             type: 'POST',
@@ -33,7 +33,7 @@ $(function() {
             async: false,
             success: function(data) {
                 console.log('Success!');
-		$("#results").val("Your Energy Prediction is: "+data)
+		$("#results").html("Your Energy Prediction is: "+data.pred[0]+" BTU")
             },
         });
     });
@@ -92,13 +92,17 @@ $(function() {
 			<div class="box">
 			  <h3>Get Predictions</h3>
 				<p>Click the Get Prediction button below to upload your CSV and get an energy prediction</p>
-				<form id="upload-file" enctype="multipart/form-data" method="post" action="/upload">
-					<input id="fileupload" name="myfile" type="file" />
-					<input id="upload-file-btn" type="submit">Get Prediction</button>
-				</form>
 
+				<input id="fileupload" type="file">
+
+<!--				<form id="upload-file" enctype="multipart/form-data" method="post" action="/upload">
+					<input id="fileupload" name="myfile" type="file" />
+					<input id="upload-file-btn" type="submit" style="display:none">Get Prediction
+					
+				</form>
+-->
 		<p id="results"> </p>
-		  <a href="#" class="button button-small">Etiam posuere</a> </div>
+		  <a href="javascript:void(0)" class="button button-small" id="get_prediction" >Get Prediction</a> </div>
 		</div>
 	</div>
 </div>
@@ -107,12 +111,12 @@ $(function() {
 		<div class="fbox1">
 		<span class="icon icon-map-marker"></span>
 			<span>1234 Fictional Road Suite #789
-			<br />Nashville TN 00000</span>
+			<br />Seattle, WA</span>
 		</div>
 		<div class="fbox1">
 			<span class="icon icon-phone"></span>
 			<span>
-				Telephone: +1 800 123 4657
+				Github: https://github.com/rlenaha2/Green-Plan-It 
 			</span>
 		</div>
 		<div class="fbox1">
