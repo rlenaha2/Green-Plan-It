@@ -179,6 +179,10 @@ def clean_df(df):
     df.loc[df['TYPEGLASS'] < 0, 'TYPEGLASS'] = 0
     df.loc[df['ONSITEGRID'] < 0, 'ONSITEGRID'] = 0
     df.loc[df['HUPROJ'] < 0, 'HUPROJ'] = 0
+
+    df = df[df.HBUSNESS != 1]
+    df = df[df.EQUIPAUX != 1]
+    
    
     if 'YEARMADE' in df.columns:
 
@@ -250,7 +254,7 @@ def create_feature_dataframe(df):
         'LGT1EE', 'NOUTLGTNT', 'LGTOEE', 'NGASLIGHT', 'DOOR1SUM',
         'WINDOWS','TYPEGLASS', 'ADQINSUL', 'DRAFTY', 'INSTLWS', 'USESOLAR', 'ONSITE',
         'ONSITEGRID', 'NHSLDMEM', 'HBUSNESS', 'ATHOME', 'OTHWORK',
-        'HUPROJ', 'TOTSQFT', 'WSF', 'OA_LAT', 'HOUSEAGE'
+        'HUPROJ', 'TOTSQFT', 'WSF', 'OA_LAT' 
         ]]
    
     return X
