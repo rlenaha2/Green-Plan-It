@@ -163,7 +163,7 @@
 	.image
 	{
 		display: inline-block;
-		border: 1px solid rgba(0,0,0,.1);
+	/*	border: 1px solid rgba(0,0,0,.1);*/
 	}
 	
 	.image img
@@ -188,7 +188,7 @@
 	.image-centered
 	{
 		display: block;
-		margin: 0 0 2em 0;
+		margin: 0 auto;
 	}
 	
 	.image-centered img
@@ -631,14 +631,16 @@
 	.column4
 	{
 		width: 282px;
+                margin: auto                
 	}
 	
 	.column1,
 	.column2,
 	.column3
 	{
-		float: left;
-		margin-right: 24px;
+/*		float: left;*/
+                margin: auto
+/*		margin-right: 24px;*/
 	}
 	
 	.column4
@@ -687,9 +689,11 @@
 	#three-column #tbox2,
 	#three-column #tbox3
 	{
-		float: left;
+/*		float: right;*/
+                margin: auto;
 		width: 320px;
 		padding: 80px 40px 80px 40px;
+                border: 1px black;
 	}
 	
 	#three-column .title
