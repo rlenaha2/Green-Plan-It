@@ -57,7 +57,7 @@ def create_model(X, y):
 
     pipe = Pipeline([('one_hot_encoder', OneHotEncoder(categorical_features=
                                                            col_dummies_index)),
-               ('ridge_model', HuberRegressor(alpha=3))])
+               ('ridge_model', HuberRegressor())])
     pipe.fit(X, y = np.sqrt(y))
     
     with open('pipe_model.p', 'wb') as f:  
