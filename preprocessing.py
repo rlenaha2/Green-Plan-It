@@ -182,7 +182,6 @@ def clean_df(df):
 
     df = df[df.HBUSNESS != 1]
     df = df[df.EQUIPAUX != 1]
-    
    
     if 'YEARMADE' in df.columns:
 
