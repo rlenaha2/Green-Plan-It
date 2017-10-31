@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import Ridge
+from sklearn.linear_model import HuberRegressor 
 import numpy as np
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
@@ -57,8 +57,8 @@ def create_model(X, y):
 
     pipe = Pipeline([('one_hot_encoder', OneHotEncoder(categorical_features=
                                                            col_dummies_index)),
-               ('ridge_model', Ridge(alpha=3))])
-    pipe.fit(X, y = np.log(y))
+               ('ridge_model', HuberRegressor(alpha=3))])
+    pipe.fit(X, y = np.sqrt(y))
     
     with open('pipe_model.p', 'wb') as f:  
         pickle.dump(pipe, f, protocol=2)

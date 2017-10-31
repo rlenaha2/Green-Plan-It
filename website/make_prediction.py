@@ -52,7 +52,7 @@ def make_prediction(pipe, df_pred):
     '''
 
     energy_prediction = pipe.predict(df_pred)
-    energy_prediction = np.exp(energy_prediction)
+    energy_prediction = (energy_prediction)**2
 
     return energy_prediction
 
