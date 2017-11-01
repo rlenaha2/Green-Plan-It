@@ -10,9 +10,9 @@ An interactive version of this model can be found at:
 
 
 ## Model Features
-The model was trained on a subset of features.  
+The model was trained on a subset of features.  The input CSV can be found at green_plan_it_input.csv.  There is a description of the variables that need to be provided as well as an example structure.
 
-The model is a linear regression with L2 reguarlization (Ridge).
+The model is a linear regression with which minimized Huber loss.  This was done to minimize the impact of the points at high energy usage which were not predicted well.  It is expected that these points were the result of omitted variables.  The questionaire was not inclusive of all possible energy expendatures and some were missed (i.e. owning an electric car). 
 
 
 ## Model Performance
