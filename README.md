@@ -5,9 +5,6 @@ This tool is intended to be used as a way of estimating the energy usage for a s
 
 The model is based on data from the 2009 Residential Energy Consumption Survey (https://www.eia.gov/consumption/residential/data/2009/index.php?view=microdata).  This data contail over 10,000 stuctures ranging from 100 sq ft to over 16,000 sq ft. 
 
-## Model Use
-An interactive version of this model can be found at:
-
 
 ## Model Features
 The model was trained on a subset of features.  The input CSV can be found at green_plan_it_input.csv.  There is a description of the variables that need to be provided as well as an example structure.
@@ -19,7 +16,7 @@ The model is a linear regression with which minimized Huber loss.  This was done
 
 The comparison of the model predictions to the actual reported values is provided below.  As can be seen in the figure most of the houses are predicted well, except for structures that have a high energy usage.  It is expected that these houses had some additional energy usage that was not captured by the questionaire.
 
-![Green-Plan-It/images/](act_vs_pred.png)
+![Green-Plan-It/images/](results.png)
 
 ## Set up
 
