@@ -17,12 +17,13 @@ The model is a linear regression with which minimized Huber loss.  This was done
 
 ## Model Performance
 
+The comparison of the model predictions to the actual reported values is provided below.  As can be seen in the figure most of the houses are predicted well, except for structures that have a high energy usage.  It is expected that these houses had some additional energy usage that was not captured by the questionaire.
 
-![Alt text](relative/path/to/img.jpg?raw=true "Title")
+![Green-Plan-It/images/](act_vs_pred.png)
 
 ## Set up
 
-## Libraries
+### Libraries
 \* Python 2.7
 
 numpy 1.13.3
