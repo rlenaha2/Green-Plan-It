@@ -8,6 +8,11 @@ import pickle
 from preprocessing import clean_df
 from preprocessing import create_target
 from preprocessing import create_feature_dataframe
+from make_prediction import make_prediction
+import matplotlib.pyplot as plt
+from regression_helpers import plot_univariate_smooth
+
+
 
 def column_index(df, query_cols):
     """
@@ -27,10 +32,26 @@ def column_index(df, query_cols):
     sidx = np.argsort(cols)
     return sidx[np.searchsorted(cols,query_cols,sorter=sidx)]
 
-
-def create_model(X, y):
+def create_split(X, y):
     '''
-    Creates a Ridge Model
+    Creates a test train split of the data
+    Inputs
+    --------
+    Feature dataframe (X) and target (y)
+
+    Output
+    --------
+    Dataframes containing a testing set and training set
+    '''
+
+    X_train, X_test, y_train, y_test = train_test_split(
+    X, y, random_state = 52)
+
+    return X_train, X_test, y_train, y_test
+
+def create_model(X_train, y_train):
+    '''
+    Creates a Linear Model minimizing the Huber loss
     Inputs
     --------
     X: A dataframe with all indicator variables transformed into numerical positive values
@@ -51,20 +72,76 @@ def create_model(X, y):
                'H2OTYPE1', 'FUELH2O', 'COOLTYPE', 'FUELPOOL','FUELTUB','TYPEGLASS',
                'ADQINSUL','DRAFTY'])
 
-    X_train, X_test, y_train, y_test = train_test_split(
-    X, y, random_state = 52)
-
     pipe = Pipeline([('one_hot_encoder', OneHotEncoder(categorical_features=
                                                            col_dummies_index)),
-               ('ridge_model', HuberRegressor())])
+               ('huber_model', HuberRegressor())])
     pipe.fit(X_train, y = np.sqrt(y_train))
     
     with open('pipe_model.p', 'wb') as f:  
         pickle.dump(pipe, f)
 
-
-
     return pipe 
+
+
+def create_results_plot(pipe, X_test, y_test):
+    '''
+    Creates a plot of predicted vs actual results
+    Inputs
+    --------
+
+
+    Outputs
+    --------
+
+    '''
+
+    energy_prediction = make_prediction(pipe, X_test)
+    plt.xlim(0, 400000)
+    plt.ylim(0, 400000)
+    plt.gca().set_aspect('equal', adjustable='box')
+    x = np.linspace(0,400000)
+    plt.plot(x,x, color = 'black')
+    plt.scatter(y_test, energy_prediction**2, alpha= .5)
+    plt.ylabel('Predicted Energy Useage')
+    plt.xlabel('Reported Energy Usage')
+    plt.rcParams["figure.figsize"] = [8,8]
+    plt.savefig('results.png')
+
+def plot_one_univariate(ax, var_name, mask=None):
+    '''
+    Create a univariate plot including boostrap samples
+
+    Inputs
+    -------
+    ax: figure to plot on
+    var_name: variable to be plotted
+
+    Outputs
+    -------
+    Univariate plot for selected variable
+    '''
+
+    fig, ax = plt.subplots(figsize=(12, 3))
+
+    if mask is None:
+        plot_univariate_smooth(
+            ax,
+            df[var_name].values.reshape(-1, 1), 
+            y,
+            bootstrap=200)
+    else:
+        plot_univariate_smooth(
+            ax,
+            df[var_name].values.reshape(-1, 1), 
+            y,
+            mask=mask,
+            bootstrap=200)
+
+    ax.set_title(var_name)
+    plt.ylabel('Reported Energy Use')
+    plt.xlabel(var_name)
+    plt.savefig(str(var_name)+"_univariate.png")
+
 
 
 if __name__=="__main__":
@@ -72,6 +149,10 @@ if __name__=="__main__":
     df = clean_df(df)
     y = create_target(df)
     X = create_feature_dataframe(df)
-    pipe = create_model(X,y)
-
-
+    X_train, X_test, y_train, y_test = create_split(X, y)
+    pipe = create_model(X_train,y_train)
+    create_results_plot(pipe, X_test, y_test) 
+    fig, ax = plt.subplots(figsize=(12, 3))
+    plot_one_univariate(ax, "TOTSQFT")
+    fig, ax = plt.subplots(figsize=(12, 3))
+    plot_one_univariate(ax, "ACROOMS")
