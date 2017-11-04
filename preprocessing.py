@@ -3,20 +3,18 @@ import pandas as pd
 
 def clean_df(df):
     '''
-    Takes the data from the RECS database and returns a dataframe of features and 
-    target engery consumption
-    
+    Takes the data from the RECS database and returns a dataframe of features
+    and target engery consumption
+
     INPUT
     ------------
-    Dataframe
-    
-    
+    df: Dataframe of input CSV
+
     Output
     ------------
     X: dataframe of features
-    y: datafram of energy targets
+    y: dataframe of energy targets
     '''
-    
 
     df.loc[df['CONDCOOP'] < 0, 'CONDCOOP'] = 0
     df.loc[df['CONVERSION'] < 0, 'CONVERSION'] = 0
@@ -182,15 +180,12 @@ def clean_df(df):
 
     df = df[df.HBUSNESS != 1]
     df = df[df.EQUIPAUX != 1]
-   
-    if 'YEARMADE' in df.columns:
 
- 
+    if 'YEARMADE' in df.columns:
         df['HOUSEAGE'] = 2009 - df.YEARMADE
 
     else:
         df['HOUSEAGE'] = df['HOUSEAGE']
-
 
     return df
 
@@ -198,15 +193,16 @@ def clean_df(df):
 def create_target(df):
     """"
     Creates energy target from dataframe that contains energy targets
-    Input 
+    Input
     -------
-    Dataframe containing column TOTALBTU
+    df: Dataframe containing column TOTALBTU
 
     Output
     -------
     Dataframe with targets removed
+    Energy targets
     """
-    
+
     y = df.pop('TOTALBTU')
     return y
 
@@ -214,7 +210,7 @@ def create_target(df):
 def create_feature_dataframe(df):
     """
     Creates dataframe of features
-    Input 
+    Input
     -------
     Cleaned dataframe (no negative values)
 
@@ -223,45 +219,39 @@ def create_feature_dataframe(df):
     Dataframe of features to be used by the model
     """
 
-    X = df[['DIVISION', 'REPORTABLE_DOMAIN', 'TYPEHUQ','HDD65','CDD65',
-        'Climate_Region_Pub', 'AIA_Zone', 'CONDCOOP', 'HOUSEAGE', 
-        'CONVERSION', 'NUMFLRS', 'NUMAPTS', 'WALLTYPE','ROOFTYPE', 'NAPTFLRS',
-        'STORIES', 'BEDROOMS', 'NCOMBATH', 'NHAFBATH', 'TOTROOMS','CELLAR',
-        'CRAWL', 'CONCRETE', 'BASEFIN' ,'BASEHEAT', 'PCTBSTHT', 'BASECOOL',
-        'PCTBSTCL', 'ATTIC', 'ATTICFIN', 'ATTCHEAT', 'PCTATTHT', 'ATTCCOOL',
-        'PCTATTCL', 'PRKGPLC1', 'SIZEOFGARAGE', 'GARGHEAT', 'GARGCOOL', 
-        'STOVEN', 'STOVENFUEL', 'STOVE', 'STOVEFUEL', 
-        'OVEN', 'OVENFUEL', 'OVENUSE', 'MICRO', 'AMTMICRO', 
-        'DEFROST', 'OUTGRILL', 'OUTGRILLFUEL', 'TOASTER', 'NUMMEAL',
-        'FUELFOOD', 'NUMFRIG', 'SIZRFRI1', 'AGERFRI1', 
-         'NUMFREEZ', 'SIZFREEZ', 'AGEFRZR',
-        'TVCOLOR','TVSIZE1', 'TVTYPE1', 
-        'TVONWD1', 'TVONWE1', 'NUMPC', 
-        'PCTYPE1', 'TIMEON1','WELLPUMP', 'DIPSTICK', 
-        'SWAMPCOL', 'AQUARIUM', 'HEATHOME', 'EQUIPM','FUELHEAT', 'EQUIPAGE', 'HEATOTH',
-        'EQUIPAUX', 'NGFPFLUE', 'USENGFP', 'DIFFUEL',
-        'EQMAMT', 'HEATROOM', 'PROTHERM','AUTOHEATNITE', 
-        'AUTOHEATDAY', 'TEMPHOME', 'TEMPGONE', 'TEMPNITE',
-        'USEMOISTURE', 'NUMH2ONOTNK', 'NUMH2OHTRS', 'H2OTYPE1', 
-        'FUELH2O', 'WHEATOTH', 'WHEATSIZ', 'WHEATAGE', 'WHEATBKT',
-        'COOLTYPE', 'DUCTS',  'CENACHP', 'ACOTHERS', 'AGECENAC', 'ACROOMS', 'USECENAC', 
-        'PROTHERMAC', 'AUTOCOOLNITE', 'AUTOCOOLDAY', 'TEMPHOMEAC',
-        'TEMPGONEAC', 'TEMPNITEAC', 'NUMBERAC', 'ESWWAC', 'USEWWAC',
-        'NUMCFAN', 'USECFAN', 'TREESHAD', 'NOTMOIST', 'USENOTMOIST',
-        'HIGHCEIL', 'CATHCEIL', 'POOL', 'FUELPOOL', 'RECBATH', 
-        'FUELTUB', 'LGT12', 'LGT12EE', 'LGT4', 'LGT4EE', 'LGT1',
-        'LGT1EE', 'NOUTLGTNT', 'LGTOEE', 'NGASLIGHT', 'DOOR1SUM',
-        'WINDOWS','TYPEGLASS', 'ADQINSUL', 'DRAFTY', 'INSTLWS', 'USESOLAR', 'ONSITE',
-        'ONSITEGRID', 'NHSLDMEM', 'HBUSNESS', 'ATHOME', 'OTHWORK',
-        'HUPROJ', 'TOTSQFT', 'WSF', 'OA_LAT' 
-        ]]
-   
+    X = df[['DIVISION', 'REPORTABLE_DOMAIN', 'TYPEHUQ', 'HDD65', 'CDD65',
+            'Climate_Region_Pub', 'AIA_Zone', 'CONDCOOP', 'HOUSEAGE',
+            'CONVERSION', 'NUMFLRS', 'NUMAPTS', 'WALLTYPE', 'ROOFTYPE',
+            'NAPTFLRS', 'STORIES', 'BEDROOMS', 'NCOMBATH', 'NHAFBATH',
+            'TOTROOMS', 'CELLAR', 'CRAWL', 'CONCRETE', 'BASEFIN', 'BASEHEAT',
+            'PCTBSTHT', 'BASECOOL', 'PCTBSTCL', 'ATTIC', 'ATTICFIN',
+            'ATTCHEAT', 'PCTATTHT', 'ATTCCOOL', 'PCTATTCL', 'PRKGPLC1',
+            'SIZEOFGARAGE', 'GARGHEAT', 'GARGCOOL', 'STOVEN', 'STOVENFUEL',
+            'STOVE', 'STOVEFUEL', 'OVEN', 'OVENFUEL', 'OVENUSE', 'MICRO',
+            'AMTMICRO', 'DEFROST', 'OUTGRILL', 'OUTGRILLFUEL', 'TOASTER',
+            'NUMMEAL', 'FUELFOOD', 'NUMFRIG', 'SIZRFRI1', 'AGERFRI1',
+            'NUMFREEZ', 'SIZFREEZ', 'AGEFRZR', 'TVCOLOR', 'TVSIZE1',
+            'TVTYPE1', 'TVONWD1', 'TVONWE1', 'NUMPC', 'PCTYPE1',
+            'TIMEON1', 'WELLPUMP', 'DIPSTICK', 'SWAMPCOL', 'AQUARIUM',
+            'HEATHOME', 'EQUIPM', 'FUELHEAT', 'EQUIPAGE', 'HEATOTH',
+            'EQUIPAUX', 'NGFPFLUE', 'USENGFP', 'DIFFUEL', 'EQMAMT',
+            'HEATROOM', 'PROTHERM', 'AUTOHEATNITE', 'AUTOHEATDAY',
+            'TEMPHOME', 'TEMPGONE', 'TEMPNITE', 'USEMOISTURE',
+            'NUMH2ONOTNK', 'NUMH2OHTRS', 'H2OTYPE1', 'FUELH2O',
+            'WHEATOTH', 'WHEATSIZ', 'WHEATAGE', 'WHEATBKT', 'COOLTYPE',
+            'DUCTS', 'CENACHP', 'ACOTHERS', 'AGECENAC', 'ACROOMS', 'USECENAC',
+            'PROTHERMAC', 'AUTOCOOLNITE', 'AUTOCOOLDAY', 'TEMPHOMEAC',
+            'TEMPGONEAC', 'TEMPNITEAC', 'NUMBERAC', 'ESWWAC', 'USEWWAC',
+            'NUMCFAN', 'USECFAN', 'TREESHAD', 'NOTMOIST', 'USENOTMOIST',
+            'HIGHCEIL', 'CATHCEIL', 'POOL', 'FUELPOOL', 'RECBATH',
+            'FUELTUB', 'LGT12', 'LGT12EE', 'LGT4', 'LGT4EE', 'LGT1',
+            'LGT1EE', 'NOUTLGTNT', 'LGTOEE', 'NGASLIGHT', 'DOOR1SUM',
+            'WINDOWS', 'TYPEGLASS', 'ADQINSUL', 'DRAFTY', 'INSTLWS',
+            'USESOLAR', 'ONSITE', 'ONSITEGRID', 'NHSLDMEM', 'HBUSNESS',
+            'ATHOME', 'OTHWORK', 'HUPROJ', 'TOTSQFT', 'WSF', 'OA_LAT'
+            ]]
+
     return X
-
-
-
 
 if __name__ == '__main__':
     df = pd.read_csv('recs2009_public.csv')
-
-
