@@ -22,6 +22,15 @@ To execute the model the model.py file should be executed.  This will produce th
 
 The pipe model is a pipe which can be used to make predictions.  To change what plots are produced the model.py file should be modified.  The model in the base directory is based on a test train split to judge model performance.  The model in the website directory is based on all of the data to make the best prediction possible.
 
+## Model Validation
+To ensure linear regression is approriate it is important to check to see if the model is performing as expected.  To check this some of the variables are plotted below.
+
+![Green-Plan-It/](images/ACROOMS_univariate.png) 
+
+![Green-Plan-It/](images/TOTSQFT_univariate.png) 
+
+As can be seen in these plots, the reported energy usage increases with increasing size of the house, and increasing number of rooms with A/C.  This is what we would expect, and gives us confidence the model is performing well.
+
 ## Model Performance
 The comparison of the model predictions to the actual reported values is provided below.  As can be seen in the figure most of the houses are predicted well, except for structures that have a high energy usage.  It is expected that these houses had some additional energy usage that was not captured by the questionaire.
 
