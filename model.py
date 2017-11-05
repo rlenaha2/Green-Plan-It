@@ -140,12 +140,12 @@ def plot_one_univariate(ax, var_name, mask=None):
 
     if mask is None:
         plot_univariate_smooth(ax,
-                               df[var_name].values.reshape(-1, 1),
-                               y, bootstrap=200)
+                               X_test[var_name].values.reshape(-1, 1),
+                               y_test, bootstrap=200)
     else:
         plot_univariate_smooth(ax,
-                               df[var_name].values.reshape(-1, 1),
-                               y, mask=mask, bootstrap=200)
+                               X_test[var_name].values.reshape(-1, 1),
+                               y_test, mask=mask, bootstrap=200)
 
     ax.set_title(var_name)
     plt.ylabel('Reported Energy Use')
