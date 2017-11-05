@@ -33,7 +33,7 @@ $(function() {
             async: false,
             success: function(data) {
                 console.log('Success!');
-		$("#results").html("Your Energy Prediction is: "+data.pred[0]+" BTU")
+		$("#results").html("Your Energy Prediction is: "+data.pred[0]+" BTU"+"( or "+data.pred[0]*(0.000293071069)+" kWh")
             },
         });
     });
