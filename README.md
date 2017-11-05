@@ -23,7 +23,7 @@ To execute the model the model.py file should be executed.  This will produce th
 The pipe model is a pipe which can be used to make predictions.  To change what plots are produced the model.py file should be modified.  The model in the base directory is based on a test train split to judge model performance.  The model in the website directory is based on all of the data to make the best prediction possible.
 
 ## Model Validation
-To ensure linear regression is approriate it is important to check to see if the model is performing as expected.  To check this some of the variables are plotted below.
+To ensure linear regression is approriate it is important to check to see if the model is performing as expected.  To check this some variables are plotted below.  This plot shows how each variable impacts the overall impact.  Additioanlly a trend line is shown which shows to overall effect.
  
 ![Green-Plan-It/](images/ACROOMS_univariate.png) 
 
