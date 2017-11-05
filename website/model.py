@@ -65,7 +65,7 @@ def create_model(X, y):
     pipe.fit(X, y=np.sqrt(y))
 
     with open('pipe_model.p', 'wb') as f:
-        pickle.dump(pipe, f)
+        pickle.dump(pipe, f, protocol=2)
 
     return pipe
 
