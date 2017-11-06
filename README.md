@@ -9,47 +9,54 @@ The model is based on data from the 2009 Residential Energy Consumption Survey (
 
 
 ## Model Overview
-The model that is used is a linear model that minimized Huber loss.  
+The model that is used is a linear model that minimized Huber loss.  Additional information on the model performance and evaluation are discussed in crispdm.mkd.
 
 
 ## Repo Structure
-<pre>/Green-Plan-It/  
+<pre>Green-Plan-It/  
  ┬  
+ ├ basis_expansions.py (python file used to support creation of univariate plots) 
  ├ crispdm.mkd (CRISP-DM framework for this project) 
- ├ dftransformers.py (file to transform dataframes used for univariate plots)  
+ ├ dftransformers.py (file to transform dataframes used for univariate plots) 
+ ├ make_prediction (python file containing code to make predictions) 
+ ├ model.py (file to generate the pipe object) 
  ├ pipe_model.p (pipe model used to make predictions)
- ├ model.py (file to generate the pipe object)
+ ├ preprocessing.py (python file clean data for use in modeling)
+ ├ regression_helpers.py (python file used to support creation of univariate plots)
  ├ [DIR] data
      ┬  
-     ├ recs2009_public.csv (CSV file containing all of the data from the RECS)  
- ├ [DIR] website  
+     └ recs2009_public.csv (CSV file containing all of the data from the RECS)  
+ ├ [DIR] images  
      ┬  
-     ├ model.py (model used by the website, uses all data)  
+     ├ ACROOMS_univariate.png (univariate plot of number of rooms with A/C)  
+     ├ TOTSQFT_univariate.png (univariate plot of total square feet)
+     ├ results.png (plot comparing actual vs predicted based on a train/test split)  
+     └ crispdm.png (visualization of the CRISP-DM process) 
+ └ [DIR] website  
+     ┬  
      ├ app.py (flask app to create website)
-     ├ green_plan_it_input.csv (csv file contianing one structure to be predicted)     
+     ├ final_pipeline.py (python class used to make predictions)
+     ├ green_plan_it_input.csv (csv file contianing one structure to be predicted) 
+     ├ make_prediction.py (python file to preprocess CSV to be predicted) 
+     ├ model.py (model used by the website, uses all data) 
+     ├ pipe_model.p (pipe model used to make predictions)    
+     ├ preprocessing.py (python file clean data for use in modeling)
+     ├ recs2009_public.csv.csv (csv file contianing all of the data)
      ├ [DIR] static  
          ┬  
          ├ [DIR] css
              ┬  
              ├ default.css (css used for the website)
-             └ font.css (css for fonts on website)             
+             ├ font.css (css for fonts on website)    
+             └ [DIR] fonts (unchanged from template)
          └ [DIR] images
              ┬  
              ├ banner.jpg (banner image on website)
-             └ green-planet.jpg (picture of green planet at top of website) 
-         
-     ├ [DIR] templates  
+             └ green-planet.jpg (picture of green planet at top of website)   
+     └ [DIR] templates  
          ┬  
-         ├ T
-         └ TBD 
-     ├ model.py (model used by the website, uses all data)  
-     └ TBD  
- ├ [DIR] images  
-     ┬  
-     ├ ACROOMS_univariate.png (univariate plot of number of rooms with A/C)  
-     ├ TOTSQFT_univariate.png (univariate plot of total square feet)
-     ├ act_vs_pred.png (plot comparing actual vs predicted based on a train/test split)  
-     └ crispdm.png (visualization of the CRISP-DM process)  
+         └ index.html (html for the website)
+ 
 </pre>
 
 ## Set up
