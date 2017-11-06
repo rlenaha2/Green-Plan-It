@@ -254,4 +254,4 @@ def create_feature_dataframe(df):
     return X
 
 if __name__ == '__main__':
-    df = pd.read_csv('recs2009_public.csv')
+    df = pd.read_csv('data/recs2009_public.csv')

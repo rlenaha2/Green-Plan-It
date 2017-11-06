@@ -153,7 +153,7 @@ def plot_one_univariate(ax, var_name, mask=None):
     plt.savefig(str(var_name) + "_univariate.png")
 
 if __name__ == "__main__":
-    df = pd.read_csv("recs2009_public.csv")
+    df = pd.read_csv("data/recs2009_public.csv")
     df = clean_df(df)
     y = create_target(df)
     X = create_feature_dataframe(df)
