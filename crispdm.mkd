@@ -1,0 +1,48 @@
+# CRISP-DM: Green Plan-It
+
+*A tool to determine expected energy usage based on a structures features*
+
+### The Cross Industry Standard Process for Data Mining (CRISP-DM) describes guidelines for data scientists who develop data products.
+
+The steps for CRISP-DM and their respective application to Green Plan-It are described below.
+
+![Green-Plan-It/](images/crispdm.png)
+
+## Business Understanding
+The business understanding component of CRISP-DM requires collaborating data scientists and business professionals to clearly outline the business problem that they are trying to address. At this point, the metrics used, definitions of success and timelines should also be established.  Green Plan-It is a tool that that will be used to predict the annual energy usage of a structure based on its features.  This process should be significantly faster/easier than current methods.  Additionally the tool should be easily understandable so anyone is able to use it.
+
+
+## Data Understanding
+Data understanding encompasses data collection and initial exploratory data analysis.  There was a significant amount of information collected in the survey, and much of the information was not necessary for this effort.  There was data on the mechanical features of the house, as well as the socioeconomic status of the household.  Socioeconomic data was removed from the database.  Addionally there was information on other fuel sources (i.e. propane and wood use).  The goal of this effort was to determine total energy usage so individual contributions were not taken into account, only the aggregate.  First attempts at a simple model performed poorly, and the model performance improved significantly with the addition of more features.
+
+
+## Data Preparation
+The model was trained on a subset of features.  These features were determined to be the mechanical features that would not result in any coliniarity.  Any negative numbers were changed to be 0, and results which were categorical were used in a pipeline to account for their impact.
+
+Structures which had a home buisiness and structures which heated secondary structures were removed from the database.  This was done to improve the performance of the model for a more typical structure.
+
+
+## Modeling
+The model is a linear regression with which minimized Huber loss.  This was done to minimize the impact of the points at high energy usage which were not predicted well.  It is expected that these points were the result of omitted variables.  The questionaire was not inclusive of all possible energy expendatures and some were missed (i.e. owning an electric car). 
+
+
+## Evaluation
+The comparison of the model predictions to the actual reported values is provided below.  This comparision is based on a train/test sploit.  As can be seen in the figure most of the houses are predicted well, except for structures that have a high energy usage.  It is expected that these houses had some additional energy usage that was not captured by the questionaire.
+
+![Green-Plan-It/](images/results.png) 
+
+The model performed well.  There are several structures with higher reported energy usage that the model was not able to predict well.  After looking into these points it is theorized that these points are a result of omitted variables.  To achieve these high energy usages it is assumed that these households are doing non-standard activites that are not captured by the questionaire.
+
+To ensure linear regression is approriate it is important to check to see if the model is performing as expected.  To check this some variables are plotted below.  This plot shows how each variable impacts the overall impact.  Additioanlly a trend line is shown which shows to overall effect.
+ 
+![Green-Plan-It/](images/ACROOMS_univariate.png) 
+
+![Green-Plan-It/](images/TOTSQFT_univariate.png)
+
+
+## Deployment
+
+
+
+## Next Steps
+There is a new data set that is currently being compiled.  It would be interesting to see how this pipeline performed on the new data.
