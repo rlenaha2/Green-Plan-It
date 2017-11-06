@@ -1,42 +1,56 @@
 # Green Plan-it
 
-## Motivation 
-This tool is intended to be used as a way of estimating the energy usage for a structure.  There are a series of questions that need to be answered in a CSV file.  These responses are read in and parsed by the tool and an estimated energy usage is returned.
+## Overview 
+Current technologies to determine annual energy usage are time consuming and difficult to use. The purpose of this tool is to make a tool that anyone can use to predict the annual energy usage of thier house.  This could be used for new structures as well as renovations.  The hope is that people will become more aware of thier energy usage, and hopefully reduce thier overall energy usage.
 
+
+## Data Source
 The model is based on data from the 2009 Residential Energy Consumption Survey (https://www.eia.gov/consumption/residential/data/2009/index.php?view=microdata).  This data contail over 10,000 stuctures ranging from 100 sq ft to over 16,000 sq ft. 
 
 
-## Model Features
-The model was trained on a subset of features.  The input CSV can be found at green_plan_it_input.csv.  There is a description of the variables that need to be provided as well as an example structure.
+## Model Overview
+The model that is used is a linear model that minimized Huber loss.  
 
-The model is a linear regression with which minimized Huber loss.  This was done to minimize the impact of the points at high energy usage which were not predicted well.  It is expected that these points were the result of omitted variables.  The questionaire was not inclusive of all possible energy expendatures and some were missed (i.e. owning an electric car). 
 
-Structures which had a home buisiness and structures which heated secondary structures were removed from the database.  This was done to improve the performance of the model for a more typical structure.
-
-## Model Execution
-To execute the model the model.py file should be executed.  This will produce the following files:
-* pipe_model.p
-* results.png
-* TOTSQFT.png
-* ACROOMS.png
-
-The pipe model is a pipe which can be used to make predictions.  To change what plots are produced the model.py file should be modified.  The model in the base directory is based on a test train split to judge model performance.  The model in the website directory is based on all of the data to make the best prediction possible.
-
-## Model Validation
-To ensure linear regression is approriate it is important to check to see if the model is performing as expected.  To check this some variables are plotted below.  This plot shows how each variable impacts the overall impact.  Additioanlly a trend line is shown which shows to overall effect.
- 
-![Green-Plan-It/](images/ACROOMS_univariate.png) 
-
-![Green-Plan-It/](images/TOTSQFT_univariate.png)
-
-As can be seen in these plots, the reported energy usage increases with increasing size of the house, and increasing number of rooms with A/C.  This is what we would expect, and gives us confidence the model is performing well.
-
-## Model Performance
-The comparison of the model predictions to the actual reported values is provided below.  As can be seen in the figure most of the houses are predicted well, except for structures that have a high energy usage.  It is expected that these houses had some additional energy usage that was not captured by the questionaire.
-
-![Green-Plan-It/](images/results.png) 
-
-The model performed well.  There are several structures with higher reported energy usage that the model was not able to predict well.  After looking into these points it is theorized that these points are a result of omitted variables.  To achieve these high energy usages it is assumed that these households are doing non-standard activites that are not captured by the questionaire.
+## Repo Structure
+<pre>/Green-Plan-It/  
+ ┬  
+ ├ crispdm.mkd (CRISP-DM framework for this project) 
+ ├ dftransformers.py (file to transform dataframes used for univariate plots)  
+ ├ pipe_model.p (pipe model used to make predictions)
+ ├ model.py (file to generate the pipe object)
+ ├ [DIR] data
+     ┬  
+     ├ recs2009_public.csv (CSV file containing all of the data from the RECS)  
+ ├ [DIR] website  
+     ┬  
+     ├ model.py (model used by the website, uses all data)  
+     ├ app.py (flask app to create website)
+     ├ green_plan_it_input.csv (csv file contianing one structure to be predicted)     
+     ├ [DIR] static  
+         ┬  
+         ├ [DIR] css
+             ┬  
+             ├ default.css (css used for the website)
+             └ font.css (css for fonts on website)             
+         └ [DIR] images
+             ┬  
+             ├ banner.jpg (banner image on website)
+             └ green-planet.jpg (picture of green planet at top of website) 
+         
+     ├ [DIR] templates  
+         ┬  
+         ├ T
+         └ TBD 
+     ├ model.py (model used by the website, uses all data)  
+     └ TBD  
+ ├ [DIR] images  
+     ┬  
+     ├ ACROOMS_univariate.png (univariate plot of number of rooms with A/C)  
+     ├ TOTSQFT_univariate.png (univariate plot of total square feet)
+     ├ act_vs_pred.png (plot comparing actual vs predicted based on a train/test split)  
+     └ crispdm.png (visualization of the CRISP-DM process)  
+</pre>
 
 ## Set up
 
