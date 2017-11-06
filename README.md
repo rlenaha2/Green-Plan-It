@@ -11,6 +11,9 @@ The model is based on data from the 2009 Residential Energy Consumption Survey (
 ## Model Overview
 The model that is used is a linear model that minimized Huber loss.  Additional information on the model performance and evaluation are discussed in crispdm.mkd.
 
+## Model Execution
+The model.py file in the base directory includes a train/test split to judge model performance.  The model.py file in the website/ directory does not include any split, and when run will create a pipe_model.p file that is trained on all of the data.  When the model.py file is run it will also produce the plots that are shown in crispdm.mkd (univariate plots for number of rooms with A/C, univariate plot of total square footage, and actual versus predicted).
+
 
 ## Repo Structure
 <pre>Green-Plan-It/  
