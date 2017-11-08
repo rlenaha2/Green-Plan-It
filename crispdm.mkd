@@ -41,7 +41,9 @@ To ensure linear regression is approriate it is important to check to see if the
 
 
 ## Deployment
+The model is currently available at: www.greenplanit.us
 
+The website is still being updated, but the model works correctly.
 
 
 ## Next Steps
