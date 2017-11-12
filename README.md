@@ -18,14 +18,14 @@ The model.py file in the base directory includes a train/test split to judge mod
 ## Repo Structure
 <pre>Green-Plan-It/  
  ┬  
+ ├ .gitignore (file containing extensions ignored by git)
+ ├ README.md (explaination of the repo)
  ├ basis_expansions.py (python file used to support creation of univariate plots) 
  ├ crispdm.mkd (CRISP-DM framework for this project) 
- ├ dftransformers.py (file to transform dataframes used for univariate plots) 
- ├ make_prediction (python file containing code to make predictions) 
+ ├ make_plots.py (python file to create plots shown in CRISP-DM write-up)
  ├ model.py (file to generate the pipe object) 
  ├ pipe_model.p (pipe model used to make predictions)
- ├ preprocessing.py (python file clean data for use in modeling)
- ├ regression_helpers.py (python file used to support creation of univariate plots)
+ ├ preprocessing.py (python file to clean data for use in modeling)
  ├ [DIR] data
      ┬  
      └ recs2009_public.csv (CSV file containing all of the data from the RECS)  
