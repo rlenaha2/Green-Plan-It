@@ -8,7 +8,6 @@ import pickle
 from preprocessing import clean_df
 from preprocessing import create_target
 from preprocessing import create_feature_dataframe
-from make_prediction import make_prediction
 import matplotlib.pyplot as plt
 
 

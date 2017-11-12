@@ -7,12 +7,27 @@ from preprocessing import clean_df
 from preprocessing import create_target
 from preprocessing import create_feature_dataframe
 from model import create_split
-from make_prediction import make_prediction
+#from make_prediction import make_prediction
 from sklearn.utils import resample
 from sklearn.preprocessing import StandardScaler
 from basis_expansions import NaturalCubicSpline
 from sklearn.linear_model import HuberRegressor
 
+
+def make_prediction(pipe, df_pred):
+    """Function to create predictions using a provided model
+    Inputs
+    -------
+    Pipe: object from model.py to make predictions
+    df_pred: dataframe to be predicted
+
+    Outputs
+    -------
+    Yearly energy usage in BTU
+    """
+    energy_prediction = pipe.predict(df_pred)
+
+    return energy_prediction
 
 def plot_univariate_smooth(ax, x, y, x_lim=None, mask=None, smooth=True,
                            n_knots=6, bootstrap=False):
