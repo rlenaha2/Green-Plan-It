@@ -10,7 +10,6 @@ from preprocessing import create_target
 from preprocessing import create_feature_dataframe
 from make_prediction import make_prediction
 import matplotlib.pyplot as plt
-from regression_helpers import plot_univariate_smooth
 
 
 def column_index(df, query_cols):
@@ -92,66 +91,6 @@ def create_model(X_train, y_train):
     return pipe
 
 
-def create_results_plot(pipe, X_test, y_test):
-    '''
-    Creates a plot of predicted vs actual results
-
-    Inputs
-    --------
-    pipe: pipe model from create_model
-    X_test: feature dataframe of the hold out data
-    y_test: target dataframe of the hold out data
-
-    Outputs
-    --------
-    Creates a plot of predicted vs actual of the test data
-    and stores it in the current working directort
-    '''
-
-    energy_prediction = make_prediction(pipe, X_test)
-    plt.xlim(0, 400000)
-    plt.ylim(0, 400000)
-    plt.gca().set_aspect('equal', adjustable='box')
-    x = np.linspace(0, 400000)
-    plt.plot(x, x, color='black')
-    plt.scatter(y_test, energy_prediction**2, alpha=.5)
-    plt.ylabel('Predicted Energy Useage')
-    plt.xlabel('Reported Energy Usage')
-    plt.rcParams["figure.figsize"] = [8, 8]
-    plt.savefig('results.png')
-
-
-def plot_one_univariate(ax, var_name, mask=None):
-    '''
-    Create a univariate plot including boostrap samples
-    and stores it in the current working directory
-
-    Inputs
-    -------
-    ax: figure to plot on
-    var_name: variable to be plotted
-
-    Outputs
-    -------
-    Univariate plot for selected variable
-    '''
-
-    fig, ax = plt.subplots(figsize=(12, 3))
-
-    if mask is None:
-        plot_univariate_smooth(ax,
-                               X_test[var_name].values.reshape(-1, 1),
-                               y_test, bootstrap=200)
-    else:
-        plot_univariate_smooth(ax,
-                               X_test[var_name].values.reshape(-1, 1),
-                               y_test, mask=mask, bootstrap=200)
-
-    ax.set_title(var_name)
-    plt.ylabel('Reported Energy Use')
-    plt.xlabel(var_name)
-    plt.savefig(str(var_name) + "_univariate.png")
-
 if __name__ == "__main__":
     df = pd.read_csv("data/recs2009_public.csv")
     df = clean_df(df)
@@ -159,8 +98,3 @@ if __name__ == "__main__":
     X = create_feature_dataframe(df)
     X_train, X_test, y_train, y_test = create_split(X, y)
     pipe = create_model(X_train, y_train)
-    create_results_plot(pipe, X_test, y_test)
-    fig, ax = plt.subplots(figsize=(12, 3))
-    plot_one_univariate(ax, "TOTSQFT")
-    fig, ax = plt.subplots(figsize=(12, 3))
-    plot_one_univariate(ax, "ACROOMS")
