@@ -98,7 +98,18 @@ def plot_smoother(ax, x, y, x_lim, n_knots, **kwargs):
     ax.plot(t, y_smoothed, **kwargs)
 
 
-def create_results_plot(pipe, X_test, y_test):
+def create_results(pipe, X_test):
+    '''
+    Creates energy predictions
+    '''
+
+    energy_prediction = make_prediction(pipe, X_test)
+    energy_prediction = energy prediction**2
+
+    return energy_prediction
+
+
+def create_results_plot(energy prediction, y_test):
     '''
     Creates a plot of predicted vs actual results
 
@@ -114,7 +125,6 @@ def create_results_plot(pipe, X_test, y_test):
     and stores it in the current working directort
     '''
 
-    energy_prediction = make_prediction(pipe, X_test)
     plt.xlim(0, 400000)
     plt.ylim(0, 400000)
     plt.gca().set_aspect('equal', adjustable='box')
@@ -124,7 +134,7 @@ def create_results_plot(pipe, X_test, y_test):
     plt.ylabel('Predicted Energy Useage')
     plt.xlabel('Reported Energy Usage')
     plt.rcParams["figure.figsize"] = [8, 8]
-    plt.savefig('results.png')
+    plt.savefig('pred_vs_act.png')
 
 
 def plot_one_univariate(ax, var_name, mask=None):
@@ -159,6 +169,26 @@ def plot_one_univariate(ax, var_name, mask=None):
     plt.savefig(str(var_name) + "_univariate.png")
 
 
+def plot_residual(energy_prediction, y_test):
+    '''
+    Function to plot the residuals as a function of reported energy use
+    Inputs
+    -------
+    energy_prediction: target values predicted by the model
+    y_test: Reported energy values
+    Outputs
+    -------
+    Plot of residuals
+    '''
+
+    residual = energy_prediction - y_test
+    plt.scatter(energy_pred, residual)
+    plt.ylabel('Residual')
+    plt.xlabel('Predicted Energy Usage')
+    plt.minorticks_on()
+    plt.grid(True)
+    plt.savefig('residuals.png')
+
 if __name__=="__main__":
     df = pd.read_csv("data/recs2009_public.csv")
     df = clean_df(df)
@@ -167,8 +197,10 @@ if __name__=="__main__":
     X_train, X_test, y_train, y_test = create_split(X, y)
     with open('pipe_model.p', 'rb') as f:
         pipe = pickle.load(f)
-    create_results_plot(pipe, X_test, y_test)
+    energy_prediction = create_results(pipe, X_test) 
+    create_results_plot(energy_preditcion, y_test)
     fig, ax = plt.subplots()
     plot_one_univariate(ax, "TOTSQFT")
     fig, ax = plt.subplots()
     plot_one_univariate(ax, "ACROOMS")
+    plot_residual(energy_preditcion, y_test)
