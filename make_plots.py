@@ -194,4 +194,5 @@ if __name__=="__main__":
     plot_one_univariate(ax, "TOTSQFT")
     fig, ax = plt.subplots()
     plot_one_univariate(ax, "ACROOMS")
+    fig, ax = plt.subplots()
     plot_residual(energy_prediction, y_test)
