@@ -172,7 +172,7 @@ def plot_residual(energy_prediction, y_test):
     '''
 
     residual = energy_prediction - y_test
-    plt.figure(1)
+    fig, ax = plt.subplots(figsize=(10, 6))
     plt.xlim(0, 300000)
     plt.ylim(-300000, 300000)
     plt.scatter(energy_prediction, residual)
@@ -198,4 +198,5 @@ if __name__=="__main__":
     plot_one_univariate(ax, "TOTSQFT")
     fig, ax = plt.subplots()
     plot_one_univariate(ax, "ACROOMS")
+    fig, ax = plt.subplots()
     plot_residual(energy_prediction, y_test)
