@@ -29,7 +29,7 @@ The model is a linear regression with which minimized Huber loss.  This was done
 ## Evaluation
 The comparison of the model predictions to the actual reported values is provided below.  This comparision is based on a train/test sploit.  As can be seen in the figure most of the houses are predicted well, except for structures that have a high energy usage.  It is expected that these houses had some additional energy usage that was not captured by the questionaire.
 
-![Green-Plan-It/](images/results.png) 
+![Green-Plan-It/](images/pred_vs_act.png) 
 
 The model performed well.  There are several structures with higher reported energy usage that the model was not able to predict well.  After looking into these points it is theorized that these points are a result of omitted variables.  To achieve these high energy usages it is assumed that these households are doing non-standard activites that are not captured by the questionaire.
 
@@ -39,6 +39,11 @@ To ensure linear regression is approriate it is important to check to see if the
 
 ![Green-Plan-It/](images/TOTSQFT_univariate.png)
 
+One issue with the model can be seen by plotting the residuals as a function of the energy use.  This is shown in the following figure.
+
+![Green-Plan-It/](images/residuals.png)
+
+As can be seen by this figure there is an increase in the residuals as the energy use increases.  This is known as heteroscedacity.  In this instance the questionaire was not all encompassing and it is expected that there were energy usages that were not catured.  It is expected that these ommitted variables would not be predicted by the model and we should see an increase in error as the energy use increases.
 
 ## Deployment
 The model is currently available at: www.greenplanit.us
