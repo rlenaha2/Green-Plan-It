@@ -173,6 +173,8 @@ def plot_residual(energy_prediction, y_test):
 
     residual = energy_prediction - y_test
     plt.figure(1)
+    plt.xlim(0, 300000)
+    plt.ylim(-300000, 300000)
     plt.scatter(energy_prediction, residual)
     plt.ylabel('Residual')
     plt.xlabel('Predicted Energy Usage')
