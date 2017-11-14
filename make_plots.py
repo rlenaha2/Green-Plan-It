@@ -118,6 +118,7 @@ def create_results_plot(energy_prediction, y_test):
     plt.ylim(0, 400000)
     plt.gca().set_aspect('equal', adjustable='box')
     x = np.linspace(0, 400000)
+    plt.figure(0)
     plt.plot(x, x, color='black')
     plt.scatter(y_test, energy_prediction, alpha=.5)
     plt.ylabel('Predicted Energy Useage')
@@ -171,6 +172,7 @@ def plot_residual(energy_prediction, y_test):
     '''
 
     residual = energy_prediction - y_test
+    plt.figure(1)
     plt.scatter(energy_prediction, residual)
     plt.ylabel('Residual')
     plt.xlabel('Predicted Energy Usage')
@@ -194,5 +196,4 @@ if __name__=="__main__":
     plot_one_univariate(ax, "TOTSQFT")
     fig, ax = plt.subplots()
     plot_one_univariate(ax, "ACROOMS")
-    fig, ax = plt.subplots()
     plot_residual(energy_prediction, y_test)
