@@ -7,7 +7,6 @@ from preprocessing import clean_df
 from preprocessing import create_target
 from preprocessing import create_feature_dataframe
 from model import create_split
-#from make_prediction import make_prediction
 from sklearn.utils import resample
 from sklearn.preprocessing import StandardScaler
 from basis_expansions import NaturalCubicSpline
@@ -26,6 +25,7 @@ def make_prediction(pipe, df_pred):
     Yearly energy usage in BTU
     """
     energy_prediction = pipe.predict(df_pred)
+    energy_prediction = (energy_prediction)**2
 
     return energy_prediction
 
@@ -98,18 +98,7 @@ def plot_smoother(ax, x, y, x_lim, n_knots, **kwargs):
     ax.plot(t, y_smoothed, **kwargs)
 
 
-def create_results(pipe, X_test):
-    '''
-    Creates energy predictions
-    '''
-
-    energy_prediction = make_prediction(pipe, X_test)
-    energy_prediction = energy prediction**2
-
-    return energy_prediction
-
-
-def create_results_plot(energy prediction, y_test):
+def create_results_plot(energy_prediction, y_test):
     '''
     Creates a plot of predicted vs actual results
 
@@ -130,11 +119,11 @@ def create_results_plot(energy prediction, y_test):
     plt.gca().set_aspect('equal', adjustable='box')
     x = np.linspace(0, 400000)
     plt.plot(x, x, color='black')
-    plt.scatter(y_test, energy_prediction**2, alpha=.5)
+    plt.scatter(y_test, energy_prediction, alpha=.5)
     plt.ylabel('Predicted Energy Useage')
     plt.xlabel('Reported Energy Usage')
     plt.rcParams["figure.figsize"] = [8, 8]
-    plt.savefig('pred_vs_act.png')
+    plt.savefig('images/pred_vs_act.png')
 
 
 def plot_one_univariate(ax, var_name, mask=None):
@@ -166,7 +155,7 @@ def plot_one_univariate(ax, var_name, mask=None):
     ax.set_title(var_name)
     plt.ylabel('Reported Energy Use')
     plt.xlabel(var_name)
-    plt.savefig(str(var_name) + "_univariate.png")
+    plt.savefig("images/" + str(var_name) + "_univariate.png")
 
 
 def plot_residual(energy_prediction, y_test):
@@ -182,12 +171,12 @@ def plot_residual(energy_prediction, y_test):
     '''
 
     residual = energy_prediction - y_test
-    plt.scatter(energy_pred, residual)
+    plt.scatter(energy_prediction, residual)
     plt.ylabel('Residual')
     plt.xlabel('Predicted Energy Usage')
     plt.minorticks_on()
     plt.grid(True)
-    plt.savefig('residuals.png')
+    plt.savefig('images/residuals.png')
 
 if __name__=="__main__":
     df = pd.read_csv("data/recs2009_public.csv")
@@ -195,12 +184,14 @@ if __name__=="__main__":
     y = create_target(df)
     X = create_feature_dataframe(df)
     X_train, X_test, y_train, y_test = create_split(X, y)
+#    X_test = pd.read_csv("X_test.csv")
+#    y_test = pd.read_csv("y_test.csv")
     with open('pipe_model.p', 'rb') as f:
         pipe = pickle.load(f)
-    energy_prediction = create_results(pipe, X_test) 
-    create_results_plot(energy_preditcion, y_test)
+    energy_prediction = make_prediction(pipe, X_test)
+    create_results_plot(energy_prediction, y_test)
     fig, ax = plt.subplots()
     plot_one_univariate(ax, "TOTSQFT")
     fig, ax = plt.subplots()
     plot_one_univariate(ax, "ACROOMS")
-    plot_residual(energy_preditcion, y_test)
+    plot_residual(energy_prediction, y_test)

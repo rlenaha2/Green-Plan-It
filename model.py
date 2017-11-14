@@ -50,6 +50,23 @@ def create_split(X, y):
     return X_train, X_test, y_train, y_test
 
 
+def create_split_files(X_test, y_test):
+    '''
+    Creates csv files to be read by plot file
+    Inputs
+    -------
+    X_test: Features that were not trained on
+    y_test: Target values to be predicted
+    Outputs
+    -------
+    Writes a CSV to file that can be used later
+    '''
+
+    X_test.to_csv('X_test.csv')
+    y_test.to_csv('y_test.csv')
+
+    return X_test, y_test
+
 def create_model(X_train, y_train):
     '''
     Creates a Linear Model minimizing the Huber loss
@@ -97,3 +114,4 @@ if __name__ == "__main__":
     X = create_feature_dataframe(df)
     X_train, X_test, y_train, y_test = create_split(X, y)
     pipe = create_model(X_train, y_train)
+    X_test, y_test = create_split_files(X_test, y_test)
