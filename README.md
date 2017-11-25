@@ -5,14 +5,14 @@ Current technologies to determine annual energy usage are time consuming and dif
 
 
 ## Data Source
-The model is based on data from the 2009 Residential Energy Consumption Survey (https://www.eia.gov/consumption/residential/data/2009/index.php?view=microdata).  This data contail over 10,000 stuctures ranging from 100 sq ft to over 16,000 sq ft. 
+The model is based on data from the 2009 Residential Energy Consumption Survey (https://www.eia.gov/consumption/residential/data/2009/index.php?view=microdata).  This data contail over 10,000 stuctures ranging from 100 sq ft to over 16,000 sq ft.  The data that is included in the modeling does not include structures that have home businesses or secondary structure heating. 
 
 
 ## Model Overview
 The model that is used is a linear model that minimized Huber loss.  Additional information on the model performance and evaluation are discussed in crispdm.mkd.
 
 ## Model Execution
-The model.py file in the base directory includes a train/test split to judge model performance.  The model.py file in the website/ directory does not include any split, and when run will create a pipe_model.p file that is trained on all of the data.  When the model.py file is run it will also produce the plots that are shown in crispdm.mkd (univariate plots for number of rooms with A/C, univariate plot of total square footage, and actual versus predicted).
+The model.py file in the base directory includes a train/test split to judge model performance.  The model.py file in the website/ directory does not include any split, and when run will create a pipe_model.p file that is trained on all of the data.  When the make_plots.py file is run it will  produce the plots that are shown in crispdm.mkd (univariate plots for number of rooms with A/C, univariate plot of total square footage, residuals and actual versus predicted).
 
 
 ## Repo Structure
