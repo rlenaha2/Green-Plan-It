@@ -233,7 +233,8 @@
 	
 	ul.contact li a
 	{
-		color: #FFF;
+                display:flex
+		justify-content: space-between;
 	}
 	
 	ul.contact li a:before
